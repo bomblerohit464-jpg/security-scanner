@@ -1,12 +1,29 @@
 
-function runDemo() {
+async function runDemo() {
     const status = document.getElementById("status");
-    status.textContent = "Running demo security scan...";
+    const checks = document.getElementById("checks");
+    const issues = document.getElementById("issues");
+    const result = document.getElementById("result");
 
-    document.getElementById("checks").textContent = "4";
-    document.getElementById("issues").textContent = "0";
-    document.getElementById("result").textContent = "DEMO";
+    status.textContent = "Connecting to security scanner...";
+    result.textContent = "RUNNING";
 
-    status.textContent =
-        "Demo complete. These are simulated results, not a real scan.";
+    try {
+        const response = await fetch("/api/results");
+
+        if (!response.ok) {
+            throw new Error("Could not load scan reports");
+        }
+
+        const data = await response.json();
+
+        checks.textContent = data.checks;
+        issues.textContent = data.issues;
+        result.textContent = data.status;
+        status.textContent = data.message;
+    } catch (error) {
+        result.textContent = "ERROR";
+        status.textContent =
+            "Scanner unavailable. Start the Flask application and run Jenkins first.";
+    }
 }
