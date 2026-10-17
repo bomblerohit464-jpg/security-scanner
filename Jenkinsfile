@@ -52,9 +52,11 @@ pipeline {
             }
         }
 
-        stage('Show Website URL') {
+        stage('Start Security Dashboard') {
             steps {
-                echo 'Security Scanning Website: http://127.0.0.1:5000/'
+                bat 'start "SecurePipeline Dashboard" cmd /k "cd /d C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Automated-Security-Scanning && C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe app.py"'
+                echo 'Dashboard launch command executed.'
+                echo 'Open http://127.0.0.1:5000/ in your browser.'
             }
         }
     }
