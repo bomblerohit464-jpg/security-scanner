@@ -5,30 +5,30 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Source code is checked out from GitHub'
+                echo 'Source code checked out from GitHub'
             }
         }
 
-       
-stage('Install Tools') {
-    steps {
-        bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install -r requirements.txt'
-        bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install bandit pip-audit'
-    }
-}
-
+        stage('Install Tools') {
+            steps {
+                bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install -r requirements.txt'
+                bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install bandit pip-audit'
+            }
+        }
 
         stage('Bandit Security Scan') {
             steps {
                 script {
-                    def result = bat(
+                    int result = bat(
                         returnStatus: true,
-                        script: 'python -m bandit -r app.py -f json -o bandit-report.json'
+                        script: '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m bandit -r app.py -f json -o bandit-report.json'
                     )
 
                     if (result != 0) {
-                        echo 'Bandit reported findings or encountered an error.'
+                        echo 'Bandit found potential issues or encountered an error.'
                         currentBuild.result = 'UNSTABLE'
+                    } else {
+                        echo 'Bandit scan completed successfully.'
                     }
                 }
             }
@@ -37,14 +37,16 @@ stage('Install Tools') {
         stage('Dependency Audit') {
             steps {
                 script {
-                    def result = bat(
+                    int result = bat(
                         returnStatus: true,
-                        script: 'python -m pip_audit -r requirements.txt -f json -o dependency-report.json'
+                        script: '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip_audit -r requirements.txt -f json -o dependency-report.json'
                     )
 
                     if (result != 0) {
-                        echo 'Dependency audit reported vulnerabilities or encountered an error.'
+                        echo 'Dependency vulnerabilities found or audit encountered an error.'
                         currentBuild.result = 'UNSTABLE'
+                    } else {
+                        echo 'Dependency audit completed successfully.'
                     }
                 }
             }
@@ -53,8 +55,10 @@ stage('Install Tools') {
 
     post {
         always {
-            archiveArtifacts artifacts: '*-report.json',
-                             allowEmptyArchive: true
+            archiveArtifacts(
+                artifacts: '*-report.json',
+                allowEmptyArchive: true
+            )
         }
     }
 }
