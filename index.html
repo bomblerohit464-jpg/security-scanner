@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePipeline | Security Scanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>🛡 SecurePipeline</h2>
+        <span>CI/CD Security Dashboard</span>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="tag">DEVSECOPS AUTOMATION</p>
+            <h1>Automated Security Scanning</h1>
+            <p>Detect security risks before your code reaches production.</p>
+            <button onclick="runDemo()">Run Demo Scan</button>
+            <p id="status">Ready to scan</p>
+        </section>
+
+        <section class="cards">
+            <div class="card">
+                <p>Security Checks</p>
+                <h2 id="checks">0</h2>
+            </div>
+            <div class="card">
+                <p>Vulnerabilities</p>
+                <h2 id="issues">--</h2>
+            </div>
+            <div class="card">
+                <p>Pipeline Status</p>
+                <h2 id="result">READY</h2>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Security Scan Workflow</h2>
+            <div class="step">01 — GitHub Source Code</div>
+            <div class="step">02 — Jenkins Build Pipeline</div>
+            <div class="step">03 — Bandit Security Analysis</div>
+            <div class="step">04 — Dependency Vulnerability Audit</div>
+            <div class="step">05 — Review Reports and Build Result</div>
+        </section>
+
+        <p class="note">
+            Demo results are simulated. Real security results must come
+            from the Jenkins pipeline reports.
+        </p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
