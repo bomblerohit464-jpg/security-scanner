@@ -9,12 +9,14 @@ pipeline {
             }
         }
 
-        stage('Install Tools') {
-            steps {
-                bat 'python -m pip install -r requirements.txt'
-                bat 'python -m pip install bandit pip-audit'
-            }
-        }
+       
+stage('Install Tools') {
+    steps {
+        bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install -r requirements.txt'
+        bat '"C:\\Users\\mithu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m pip install bandit pip-audit'
+    }
+}
+
 
         stage('Bandit Security Scan') {
             steps {
